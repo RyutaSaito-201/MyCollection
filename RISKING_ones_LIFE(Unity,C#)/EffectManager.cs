@@ -23,18 +23,11 @@ public class EffectManager : MonoBehaviour
         L_EffectObj.Add(effectObj);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public GameObject SpawnEffect(int SltEffectNo, Transform Pos)
     {
         switch (SltEffectNo)
         {
             case 0:
-                //Debug.Log(Pos);
-                //Debug.Log(L_EffectObj[SltEffectNo]);
                 Instantiate(L_EffectObj[SltEffectNo], Pos.position, Pos.rotation);
                 break;
             case 1:
@@ -50,7 +43,6 @@ public class EffectManager : MonoBehaviour
                 break;
             case 4: // åÄñÚÉIÅ[Éâ
 				return Instantiate(L_EffectObj[SltEffectNo], Pos.position, Pos.rotation);
-				//break;
         }
 
         return null;
@@ -60,7 +52,6 @@ public class EffectManager : MonoBehaviour
     public void DestoryEffect()
     {
         GameObject[] gameObjects2 = GameObject.FindGameObjectsWithTag("SelectEffect");
-        //Debug.Log(gameObjects2.Length);
         for (int i = 0; i < gameObjects2.Length; i++)
         {
             Destroy(gameObjects2[i]);

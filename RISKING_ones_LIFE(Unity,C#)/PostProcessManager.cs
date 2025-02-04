@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class PostProcessManager : MonoBehaviour
 {
+    // 状態異常の種類
     enum PostEffectKind
     {
         Heart,  // 心臓
@@ -32,20 +33,20 @@ public class PostProcessManager : MonoBehaviour
 
     private int nPlayPostEffectNo = 3;
 
-    private float duration = 2f; // 2秒で0から1に変更する
-    private float duration2 = 5f; // 5秒で0から1に変更する
+    private float duration = 2f;                    // 2秒で0から1に変更する
+    private float duration2 = 5f;                   // 5秒で0から1に変更する
     private float duration3 = 0.7f;
     private float timeElapsed = 0f;
     private float timeElapsed1 = 0f;
-    private float maxVignetteIntensity = 1.0f; // ビネットの最大強度
+    private float maxVignetteIntensity = 1.0f;      // ビネットの最大強度
     private float originalVignetteIntensity = 0.2f; // ビネットの元の強度
-    private float elapsedTime = 0.0f; // 経過時間
+    private float elapsedTime = 0.0f;               // 経過時間
     private float TimeSpawn = 1.5f;
     private bool _isLung = false;
-    private bool _isPlayheart;      // 心臓エフェクト再生中か
-    private bool _isPlayLung;       // 肺エフェクト再生中か
+    private bool _isPlayheart;                      // 心臓エフェクト再生中か
+    private bool _isPlayLung;                       // 肺エフェクト再生中か
     private bool _isPlayEye = false;
-    private bool _lungCountStopFlg;     // 肺のカウントダウンを一時停止する
+    private bool _lungCountStopFlg;                 // 肺のカウントダウンを一時停止する
 
     private List<int> nOldPostEffectNo;
     private List<int> CulletPlayEffect;
@@ -76,14 +77,14 @@ public class PostProcessManager : MonoBehaviour
     {
         if (!_IsPlayPostEffect) return;
 
-        if (nOldPostEffectNo != null && nOldPostEffectNo.Count > 0)          // エフェクトを戻す処理
+        if (nOldPostEffectNo != null && nOldPostEffectNo.Count > 0)  // エフェクトを戻す処理
         {
             Debug.Log(nOldPostEffectNo.Count);
             foreach (int i in nOldPostEffectNo)
             {
                 switch (i)
                 {
-                    case (int)PostEffectKind.Eye:       // 目
+                    case (int)PostEffectKind.Eye:  // 目
                         _isPlayEye = false;
                         float t = timeElapsed / duration;
                         OfField.gaussianStart.value = Mathf.Lerp(0.0f, 1000.0f, t);
@@ -150,17 +151,17 @@ public class PostProcessManager : MonoBehaviour
 
         if (CulletPlayEffect != null)
         {
-            foreach (int No in CulletPlayEffect)// エフェクトの数分だけ繰り返す
+            foreach (int No in CulletPlayEffect)                // エフェクトの数分だけ繰り返す
             {
-                switch (No)  // エフェクト開始処理
+                switch (No)                                     // エフェクト開始処理
                 {
-                    case (int)PostEffectKind.Heart: // 心臓
+                    case (int)PostEffectKind.Heart:             // 心臓
                         if (PlaySE.isPlaying)
                         {
                             if (audioManager.GetCurrentSEName() == "HeartSound")
                             {
 
-                                _isPlayheart = true;    // 心臓エフェクト再生中フラグ上げ
+                                _isPlayheart = true;             // 心臓エフェクト再生中フラグ上げ
 
                                 float[] samples = new float[256];
                                 PlaySE.GetOutputData(samples, 0);
@@ -182,7 +183,6 @@ public class PostProcessManager : MonoBehaviour
                                 float t2 = elapsedTime / 1.0f;
                                 vignette.intensity.value = Mathf.Lerp(0.2f, 0.0f, t2);
                                 Chromatic.intensity.value = Mathf.Lerp(0.2f, 0.0f, t2);
-                                //Debug.Log(vignette.intensity.value);
                                 if (vignette.intensity.value < 0.01f)
                                 {
                                     _isPlayheart = false;    // 心臓エフェクト再生中フラグ下げ
@@ -200,8 +200,7 @@ public class PostProcessManager : MonoBehaviour
                             float t = timeElapsed / duration;
                             OfField.gaussianStart.value = Mathf.Lerp(1000.0f, 0f, t);
                             timeElapsed += Time.deltaTime;
-
-                            //Debug.Log(t);
+                            
                             float a = Mathf.Lerp(100.0f, 20.0f, t);
                             float b = Mathf.Lerp(0.0f, 20.0f, t);
 
@@ -222,11 +221,9 @@ public class PostProcessManager : MonoBehaviour
                             }
                         }
                         break;
-                    case (int)PostEffectKind.Ear:   // 耳
-                        break;
-                    case (int)PostEffectKind.Lung:  // 肺
-                        if (!_isPlayLung) break;    // 肺演出再生フラグが立ってなければ以下を処理しない
-                        if (_lungCountStopFlg) break;    // カウント停止フラグが立っていたら以下を処理しない
+                    case (int)PostEffectKind.Lung:          // 肺
+                        if (!_isPlayLung) break;            // 肺演出再生フラグが立ってなければ以下を処理しない
+                        if (_lungCountStopFlg) break;       // カウント停止フラグが立っていたら以下を処理しない
 
                         float t3 = elapsedTime / TimeSpawn;
                         float vignetteIntensity2 = Mathf.Lerp(originalVignetteIntensity, maxVignetteIntensity, t3);
@@ -246,9 +243,9 @@ public class PostProcessManager : MonoBehaviour
     // =====  カメラフォーカス処理関数 =====
     public void PlayPostEffect(int SltPE)
     {
-        switch (SltPE)
+        switch (SltPE)  // エフェクト開始
         {
-            case 0: // �I��
+            case 0: // カメラの遷移する座標と開始地点を設定
                 GameObject Heel = GameObject.Find("HeelObs");
                 GameObject HeelPos = GameObject.Find("HeelPos");
 
@@ -258,7 +255,7 @@ public class PostProcessManager : MonoBehaviour
 
                 float distance = Vector3.Distance(Heel.transform.position, HeelPos.transform.position);
                 timeElapsed1 += Time.deltaTime;
-                // ���K��
+                // 地点間の距離を正規化
                 float normalizeDistance = 1 - (distance / 9);
 
                 Debug.Log(distance);
@@ -266,20 +263,19 @@ public class PostProcessManager : MonoBehaviour
                 {
                     OfField.gaussianStart.value = 1000.0f + (3.0f - 1000.0f) * normalizeDistance;
                 }
-                //OfField.focusDistance.value = 2.5f - (distance * -1.0f);
 
-                // 
+                // 概ね目的座標についたか
                 if (distance < 0.01f)
                 {
                     Debug.Log("OK");
-                    _isPlayHealBlur = false;    // �Đ��I��
+                    _isPlayHealBlur = false; 
                     timeElapsed1 = 0f;
                     return /*false*/;
                 }
-                _isPlayHealBlur = true;         // �܂��Đ���
+                _isPlayHealBlur = true;
                 return /*true*/;
 
-            case 1: // �I���L�����Z��
+            case 1: // エフェクト終了
                 GameObject Heel1 = GameObject.Find("HeelObs");
 
                 float t1 = timeElapsed1 / duration3;
@@ -290,7 +286,7 @@ public class PostProcessManager : MonoBehaviour
 
                 Vector3 testf3 = Heel1.transform.position;
                 Vector3 testf4 = StartHeelPos;
-                // ���K��
+                // 地点間の距離を正規化
                 float normalizeDistance2 = 1 - (distance1 / 9);
 
                 Debug.Log(distance1);
@@ -298,17 +294,16 @@ public class PostProcessManager : MonoBehaviour
                 {
                     OfField.gaussianStart.value = 4.0f + (1001.0f - 4.0f) * normalizeDistance2;
                 }
-                // OfField.focusDistance.value = (7.5f - distance1) + 2.5f;
 
-                // �T�ː������ʒu�ɗ��Ă��邩
+                // 概ね目的座標についたか
                 if (distance1 < 0.01f)
                 {
                     Debug.Log("OK");
                     timeElapsed1 = 0f;
-                    _isPlayHealBlur = false;    // �Đ��I��
+                    _isPlayHealBlur = false;
                     return /*true*/;
                 }
-                _isPlayHealBlur = true;         // �܂��Đ���
+                _isPlayHealBlur = true; 
                 return /*false*/;
             default:
                 return /*false*/;
@@ -316,7 +311,7 @@ public class PostProcessManager : MonoBehaviour
         }
     }
 
-    // ===== getter�Esetter =====
+    // ===== getter・setter =====
     public bool IsPlayHealBlur { get { return _isPlayHealBlur; } }
     public bool IsPlayPostEffect { get { return _IsPlayPostEffect; } }
     public bool isPlayheart { get { return _isPlayheart; } set { _isPlayheart = value; } }

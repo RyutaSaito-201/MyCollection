@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-//using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.VFX;
@@ -12,6 +11,7 @@ using UnityEngine.Rendering;
 using TMPro;
 using Unity.VisualScripting;
 using static UnityEngine.Rendering.DebugUI.Table;
+
 public class EffectManager : MonoBehaviour
 {
     static AsyncOperationHandle<GameObject>[] AttackEffect;
@@ -25,6 +25,7 @@ public class EffectManager : MonoBehaviour
     public GameObject EnemyArc_Effect_LV2;
     public GameObject EnemyArc_Effect_LV3;
     public GameObject EnemyArc_Effect_LV4;
+
     public enum Effectkind
     {
         SLASH_LV1,      // アタッカー
@@ -60,11 +61,10 @@ public class EffectManager : MonoBehaviour
     bool play;
     GameObject a;
     bool IsBoss = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        //AttackEffect[] = new GameObject[10];
-        //Debug.Log("とおったお");
         ParticleSystem particle = GetComponent<ParticleSystem>();
         AttackEffect = new AsyncOperationHandle<GameObject>[(int)Effectkind.MAX_KIND + 3];  // エフェクト実体保存用配列
         AsyncOperationHandle<GameObject>[] loadHandle = new AsyncOperationHandle<GameObject>[(int)Effectkind.MAX_KIND + 3];
@@ -145,10 +145,6 @@ public class EffectManager : MonoBehaviour
             }
         }
     }
-    // Update is called once per frame
-    void Update()
-    {
-    }
 
     // エフェクトの生成場所の設定
     // void EffectPos :: y:Y軸,x:X軸,SltNo:表示するエフェクトの番号,Arc_ATKRange: プレイヤー攻撃開始位置,Ene_ATKRange: 敵攻撃位置
@@ -159,43 +155,29 @@ public class EffectManager : MonoBehaviour
         switch (SltNo)
         {
             case 0:
-                //if (y > 0)
-                //{   // アタッカー斬撃エフェクト
-                //    //Debug.Log("アタッカーとおったお");
-                //    nLV += (int)Effectkind.SLASH_LV1;    // 上記にて事前に計算していた変数nLVに最低レベルの値を加算
-                //    Debug.Log("味方2:" + nLV);
-                //    SpawnEffect(nLV, new Vector3(y - 0.55f, x - 0.2f, -3.0f), new Vector3(0.0f, 90.0f, 0.0f));
-                //}
-
                 // 敵近接攻撃エフェクト    
-                //nLV--;
                 nLV += (int)Effectkind.SLASH_LV1;
                 Debug.Log("味方近接攻撃エフェクト" + nLV);
                 Debug.Log(AttackEffect[nLV].IsValid());
                 switch (nLV % 5)
                 {
                     case 0:
-                        //nLV += (int)Effectkind.ENEMY_SLASH_LV1;
                         Debug.Log("味方近接:" + nLV);
                         SpawnEffect(nLV, new Vector3(y - 0.55f, x - 0.2f, -3.0f), new Vector3(0.0f, 90.0f, 0.0f));
                         break;
                     case 1:
-                        //nLV += (int)Effectkind.ENEMY_SLASH_LV2;
                         Debug.Log("味方近接:" + nLV);
                         SpawnEffect(nLV, new Vector3(y - 0.55f, x - 0.2f, -3.0f), new Vector3(0.0f, 90.0f, 0.0f));
                         break;
                     case 2:
-                        //nLV += (int)Effectkind.ENEMY_SLASH_LV3;
                         Debug.Log("味方近接:" + nLV);
                         SpawnEffect(nLV, new Vector3(y - 0.5f, x - 0.2f, -3.0f), new Vector3(0.0f, 0.0f, 0.0f));
                         break;
                     case 3:
-                        //nLV += (int)Effectkind.ENEMY_SLASH_LV4;
                         Debug.Log("味方近接:" + nLV);
                         SpawnEffect(nLV, new Vector3(y - 0.55f, x - 0.2f, -3.0f), new Vector3(0.0f, 90.0f, 0.0f));
                         break;
                     case 4:
-                        //nLV += (int)Effectkind.ENEMY_SLASH_LV4;
                         Debug.Log("味方近接:" + nLV);
                         SpawnEffect(nLV, new Vector3(y - 0.55f, x - 0.2f, -3.0f), new Vector3(0.0f, 90.0f, 0.0f));
                         break;
@@ -204,14 +186,12 @@ public class EffectManager : MonoBehaviour
                 break;
             case 1:
                 // ヒーラー回復エフェクト
-                //Debug.Log("ヒールとおったお")
                 nLV += (int)Effectkind.HEAL_LV1;
                 Debug.Log("ヒール:" + nLV);
                 SpawnEffect(nLV, new Vector3(y, x - 0.2f, -3.0f), new Vector3(-90.0f, 0.0f, 0.0f));
                 break;
             case 2:
                 // アーチャー攻撃エフェクト
-                //Debug.Log("アーチャーとおったお");
                 nLV--;
                 nLV += (int)Effectkind.SHOT_LV1;
                 Transform[] children = new Transform[Arc_Effect_LV1.transform.childCount];
@@ -256,16 +236,15 @@ public class EffectManager : MonoBehaviour
                 break;
             case 3:
                 // 敵アーチャ攻撃エフェクト
-                Debug.Log("敵アーチャ攻撃エフェクト");
                 nLV += (int)Effectkind.ENEMY_SHOT_LV1;
                 Debug.Log("敵アーチャ攻撃エフェクト" + nLV);
                 switch (nLV % 5)
                 {
-                    case 0:
-                        // 攻撃距離を計算
+                    case 0:// 攻撃距離を計算
                         InitArrowEffect(Arc_ATKRange, ENE_ATkRange, EnemyArc_Effect_LV1, nLV, new Vector3(x, y - 0.8f, -3.0f), new Vector3(-90.0f, 0.0f, -90.0f));
                         break;
                     case 1:
+                        // ビームエフェクト
                         for (int i = 0; i < EnemyArc_Effect_LV2.transform.GetChild(0).childCount; i++)
                         {
                             Vector3 newScale = EnemyArc_Effect_LV2.transform.GetChild(0).localScale;
@@ -288,42 +267,27 @@ public class EffectManager : MonoBehaviour
                 }
                 break;
             case 4:
-                // 敵近接攻撃エフェクト    
-                Debug.Log("敵近接攻撃エフェクト");
-                //nLV --;
+                // 敵近接攻撃エフェクト
                 nLV += (int)Effectkind.ENEMY_SLASH_LV1;
                 Debug.Log("敵接攻撃攻撃エフェクト" + nLV);
                 switch (nLV % 5)
                 {
                     case 0:
-                        Debug.Log("敵:" + nLV);
-                        //nLV += (int)Effectkind.ENEMY_SLASH_LV1;
-                        Debug.Log("敵2:" + nLV);
                         SpawnEffect(nLV, new Vector3(x, y - 0.5f, -3.0f), new Vector3(0.0f, -90.0f, 0.0f));
                         break;
                     case 1:
-                        Debug.Log("敵:" + nLV);
-                        //nLV += (int)Effectkind.ENEMY_SLASH_LV2;
-                        Debug.Log("敵2:" + nLV);
                         SpawnEffect(nLV, new Vector3(x, y - 0.3f, -3.0f), new Vector3(0.0f, -90.0f, 0.0f));
                         break;
                     case 2:
-                        Debug.Log("敵:" + nLV);
-                        //nLV += (int)Effectkind.ENEMY_SLASH_LV3;
-                        Debug.Log("敵2:" + nLV);
                         SpawnEffect(nLV, new Vector3(x, y - 0.2f, -3.0f), new Vector3(0.0f, -90.0f, 0.0f));
                         break;
                     case 3:
-                        Debug.Log("敵:" + nLV);
-                        //nLV += (int)Effectkind.ENEMY_SLASH_LV4;
-                        Debug.Log("敵2:" + nLV);
                         SpawnEffect(nLV, new Vector3(x, y - 0.2f, -3.0f), new Vector3(-90.0f, -90.0f, 0.0f));
                         break;
                 }
                 break;
             case 5:
-                // ボス近接攻撃エフェクト    
-                Debug.Log("ボス近接攻撃エフェクト");
+                // ボス近接攻撃エフェクト
                 if (nLV == 4)
                     nLV -= 2;
                 else
@@ -339,20 +303,16 @@ public class EffectManager : MonoBehaviour
                             IsBoss = true;
                         }
                         else
-                        {
                             IsBoss = false;
-                        }
                     break;
                     case 1:
                         if (!IsBoss)
                         {
-                            SpawnEffect(25, new Vector3(4, -4, -3.0f), new Vector3(0.0f, 90.0f, 0.0f));
+                            SpawnEffect(nLV, new Vector3(4, -4, -3.0f), new Vector3(0.0f, 90.0f, 0.0f));
                             IsBoss = true;
                         }
                         else
-                        {
                             IsBoss = false;
-                        }
                         break;
                     case 2:
                         if (!IsBoss)
@@ -361,9 +321,7 @@ public class EffectManager : MonoBehaviour
                             IsBoss = true;
                         }
                         else
-                        {
                             IsBoss = false;
-                        }
                         break;
                 }
 
@@ -388,7 +346,7 @@ public class EffectManager : MonoBehaviour
         Debug.Log("アーチャー:" + fRange);
         for (int i = 0; i < Effect.transform.GetChild(0).childCount; i++)
         {
-            float Speed = fRange / (13.0f / 2.5f); // Effect   のライフタイムを計算
+            float Speed = fRange / (13.0f / 2.5f); // Effectのライフタイムを計算
 
             ParticleSystem particleSystem = AttackEffect[nLV].Result.transform.GetChild(0).transform.GetChild(i).GetComponent<ParticleSystem>();
             var startLifeSpeed = particleSystem.main;

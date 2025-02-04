@@ -37,11 +37,11 @@ public:
 
 	float GetPlayerflame(int Select);
 
-	void PlayerDown(); //プレイヤーが倒れた方向に移動させる
+	void PlayerDown();			// プレイヤーが倒れた方向に移動させる
 
-	void AnimReset();	//アニメーションの再生・終了を管理する関数
+	void AnimReset();			// アニメーションの再生・終了を管理する関数
 
-	bool IsPlayAnimation();	//
+	bool IsPlayAnimation();		// アニメーションが再生中か確認する用変数
 
 private:
 	CTime* m_pTime;
@@ -51,7 +51,7 @@ private:
 	Model::AnimeNo Punchanime;
 	Model::AnimeNo Moveanime;
 
-	int m_nDirection;	// プレイヤーの向いている方向
+	int m_nDirection;				// プレイヤーの向いている方向
 
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_OldPos;
@@ -67,17 +67,17 @@ private:
 	Effekseer::Handle efkHandle;
 
 	int m_nCnt = 0;
-	bool m_bStartMove;   //ゲーム開始時か
-	bool m_bPlayerDownFinished;	//プレイヤーが倒れた際の移動が終わったか
+	bool m_bStartMove;				//ゲーム開始時か
+	bool m_bPlayerDownFinished;		//プレイヤーが倒れた際の移動が終わったか
 	bool m_bNotStop;				// ステージ開始直後の時止めができないようにする
-	bool m_bAnimChange; //アニメーションの差し替え
-	bool m_bPAnimFlagStart;	//猫パンチアニメーション開始
-	bool m_bPAnimFlagEnd;	//猫パンチアニメーション終了
-	bool m_bDAnimFlagStart;	//倒れるアニメーション開始
-	bool m_bDAnimFlagEnd;	//倒れるアニメーション終了
-	bool m_IsMove;		//プレイヤーが動いているか
+	bool m_bAnimChange;				//アニメーションの差し替え
+	bool m_bPAnimFlagStart;			//猫パンチアニメーション開始
+	bool m_bPAnimFlagEnd;			//猫パンチアニメーション終了
+	bool m_bDAnimFlagStart;			//倒れるアニメーション開始
+	bool m_bDAnimFlagEnd;			//倒れるアニメーション終了
+	bool m_IsMove;					//プレイヤーが動いているか
 
-	int m_nChange;	//アニメーションの切り替え
+	int m_nChange;					//アニメーションの切り替え
 
 
 };

@@ -32,7 +32,7 @@ CGroundManager::CGroundManager()
 
 	m_pCamera = new CameraDebug();
 }
-
+// オブジェクト生成関数(引数 : float:大きさ(x,y,z) float:座標(x,y,z),bool:止まっているかどうか)
 void CGroundManager::CreateGround(float ScalingX, float ScalingY, float ScalingZ, float posX, float posY, float posZ, bool isStop)
 {
 	m_Size.x = ScalingX;

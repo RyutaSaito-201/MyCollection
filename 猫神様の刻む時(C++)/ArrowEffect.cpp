@@ -122,8 +122,6 @@ void ArrowEffect::Update(int Direction, int Phase, DirectX::XMFLOAT3 Pos[5], Dir
 						if (m_nAnimeNo[1] >= 29)
 						{
 							m_nAnimeNo[1] = 28;
-							//m_bIsEffect[1] = false;
-							//m_bIsPlay[1] = true;
 						}
 					}
 					m_pEffectMng[1]->Update({ 8.0f, 4.0f }, { 8.0f, 4.0f }, m_nAnimeNo[1], { m_pos[0].x, m_pos[0].y + 2.0f, m_pos[0].z - 1.0f }, 8);

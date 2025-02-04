@@ -74,19 +74,17 @@ CPlayer::CPlayer()
 		{
 			MessageBox(nullptr, "VS_Model.cso", "Error", MB_OK);
 		}
-
-		m_pModel[0][j]->SetVertexShader(ShaderList::GetVS(ShaderList::VS_ANIME));	//モデルへ読み込んだ頂点シェーダーを設定
-		m_pModel[1][0]->SetVertexShader(m_pVS);	//モデルへ読み込んだ頂点シェーダーを設定
-
-
+		//モデルへ読み込んだ頂点シェーダーを設定
+		m_pModel[0][j]->SetVertexShader(ShaderList::GetVS(ShaderList::VS_ANIME));	
+		m_pModel[1][0]->SetVertexShader(m_pVS);						
 	}
-
-	Model::AnimeNo Deathanime = m_pModel[0][0]->AddAnimation("Assets/Model/Player/NewRigCatDeath001.fbx"); //倒れるモーション
-	Punchanime = m_pModel[0][1]->AddAnimation("Assets/Model/Player/NewRigCat_punch001.fbx");//猫パンチモーション
-	Moveanime = m_pModel[0][2]->AddAnimation("Assets/Model/Player/NewRigCat_move003.fbx"); //歩きモーション
+	//　モーション読み込み
+	Model::AnimeNo Deathanime = m_pModel[0][0]->AddAnimation("Assets/Model/Player/NewRigCatDeath001.fbx"); 
+	Punchanime = m_pModel[0][1]->AddAnimation("Assets/Model/Player/NewRigCat_punch001.fbx");
+	Moveanime = m_pModel[0][2]->AddAnimation("Assets/Model/Player/NewRigCat_move003.fbx"); 
 	m_pModel[0][0]->Play(Deathanime, false);	//倒れるモーション
 	m_pModel[0][1]->Play(Punchanime, false);	//猫パンチモーション
-	m_pModel[0][2]->Play(Moveanime, true);
+	m_pModel[0][2]->Play(Moveanime, true);		//歩きモーション
 	m_pCamera = new CameraDebug();
 
 	// 作成
@@ -214,7 +212,6 @@ void CPlayer::Update(float tick)
 		}
 		if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN || IsKeyPress('S'))
 		{
-			//MessageBox(NULL, "AButton", "Controller", MB_OK);
 			m_pos.z -= PLAYER_MOVE;
 			m_Center.z = m_pos.z;
 			m_nDirection = 2;
@@ -434,7 +431,6 @@ void CPlayer::DeathTick()
 {
 	if (!m_bAnimChange)
 	{
-		//m_bAnimChange = true;
 		m_nChange = 0;
 	}
 	for (int i = 0; i < 2; i++)
@@ -445,12 +441,9 @@ void CPlayer::DeathTick()
 
 void CPlayer::PunchTick(float tick)
 {
-	//	m_bPAnimFlagStart = true;
 	m_nChange = 1;
 
 	m_pModel[0][1]->Step(tick);
-
-
 }
 
 void CPlayer::PlayerDown()
@@ -479,12 +472,10 @@ void CPlayer::AnimReset()
 {
 	//アニメーションのリセット
 	m_pModel[0][1]->SetAnimationTime(0, 0.0f);
-	//	m_bPAnimFlagEnd = true;
 	m_nChange = 2;
 }
 
 bool CPlayer::IsPlayAnimation()
 {
 	return m_pModel[0][1]->IsPlay(0);
-	//	m_bPAnimFlagEnd = true;
 }

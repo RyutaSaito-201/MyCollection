@@ -49,6 +49,7 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 現在のゲームの状態を確認
         if (GameObject.Find("PlayerDrawOrDrinkState(Clone)") != null)
         {
             playerDrawOrDrinkState = GameObject.Find("PlayerDrawOrDrinkState(Clone)").GetComponent<PlayerDrawOrDrinkState>();
@@ -67,6 +68,7 @@ public class CameraManager : MonoBehaviour
             playerDrawOrDrinkState = null;
             playerDrinkState = null;
         }
+
         // 選択画面からゲーム画面へ
         if (_isMoveOder || IsMove)
         {
@@ -129,9 +131,7 @@ public class CameraManager : MonoBehaviour
     public bool CheckCamera()
     {
         if (cameraPosition == CameraState.GAME && !CameraMove[0] || IsMove)
-        {
             return true;
-        }
         return false;
     }
 

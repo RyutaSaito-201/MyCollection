@@ -8,9 +8,8 @@
 #include "CameraDebug.h"
 
 ///////////////////////////////////////////////
-//	void CreateGround(float ScalingX, float ScalingY, float ScalingZ, float posX, float posY, float posZ, DirectX::XMFLOAT4X4 mat[3])
+//	void CreateGround(float ScalingX, float ScalingY, float ScalingZ, float posX, float posY, float posZ, bool isStop)
 //	
-//	引数：(float型が7個, DirectX::XMFLOAT4X4型:1個)
 //	戻り値:なし
 //
 //	作者：斎藤
@@ -43,7 +42,6 @@ protected:
 	DirectX::XMFLOAT3 m_CameraPos;
 	DirectX::XMFLOAT3 m_CameraLook;
 	bool m_bStop;		// 時止め時のモデルか
-	//DirectX::XMFLOAT4X4 m_mat[3];
 };
 
-#endif // !___GROUND_MNG_H___
+#endif
